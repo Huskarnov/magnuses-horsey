@@ -1,51 +1,59 @@
+import { rosaceBuilder } from "./toolsModule.js";
+
 class Vertex {
   constructor(x, y) {
     this.adress = [x, y];
-    this.rosace = this.#rosaceBuilder();
+    // this.rosace = this.#rosaceBuilder();
   }
-  #rosaceBuilder() {
-    let rosaceArray = [];
-    if (this.adress[0] + 2 <= 7) {
-      if (this.adress[1] + 1 <= 7) {
-        rosaceArray.push([this.adress[0] + 2, this.adress[1] + 1]);
-      }
-      if (this.adress[1] - 1 >= 0) {
-        rosaceArray.push([this.adress[0] + 2, this.adress[1] - 1]);
-      }
-    }
-    if (this.adress[0] - 2 >= 0) {
-      if (this.adress[1] + 1 <= 7) {
-        rosaceArray.push([this.adress[0] - 2, this.adress[1] + 1]);
-      }
-      if (this.adress[1] - 1 >= 0) {
-        rosaceArray.push([this.adress[0] - 2, this.adress[1] - 1]);
-      }
-    }
-    //
-    if (this.adress[1] + 2 <= 7) {
-      if (this.adress[0] + 1 <= 7) {
-        rosaceArray.push([this.adress[0] + 1, this.adress[1] + 2]);
-      }
-      if (this.adress[0] - 1 >= 0) {
-        rosaceArray.push([this.adress[0] - 1, this.adress[1] + 2]);
-      }
-    }
-    if (this.adress[1] - 2 >= 0) {
-      if (this.adress[0] + 1 <= 7) {
-        rosaceArray.push([this.adress[0] + 1, this.adress[1] - 2]);
-      }
-      if (this.adress[0] - 1 >= 0) {
-        rosaceArray.push([this.adress[0] - 1, this.adress[1] - 2]);
-      }
-    }
+  // #rosaceBuilder(a, b) {
+  //   let rosaceArray = [];
+  //   if (a + 2 <= 7) {
+  //     if (b + 1 <= 7) {
+  //       rosaceArray.push([a + 2, b + 1]);
+  //     }
+  //     if (b - 1 >= 0) {
+  //       rosaceArray.push([a + 2, b - 1]);
+  //     }
+  //   }
+  //   if (a - 2 >= 0) {
+  //     if (b + 1 <= 7) {
+  //       rosaceArray.push([a - 2, b + 1]);
+  //     }
+  //     if (b - 1 >= 0) {
+  //       rosaceArray.push([a - 2, b - 1]);
+  //     }
+  //   }
+  //   //
+  //   if (b + 2 <= 7) {
+  //     if (a + 1 <= 7) {
+  //       rosaceArray.push([a + 1, b + 2]);
+  //     }
+  //     if (a - 1 >= 0) {
+  //       rosaceArray.push([a - 1, b + 2]);
+  //     }
+  //   }
+  //   if (b - 2 >= 0) {
+  //     if (a + 1 <= 7) {
+  //       rosaceArray.push([a + 1, b - 2]);
+  //     }
+  //     if (a - 1 >= 0) {
+  //       rosaceArray.push([a - 1, b - 2]);
+  //     }
+  //   }
 
-    return rosaceArray;
-  }
+  //   return rosaceArray;
+  // }
 }
 class Graph {
   constructor(x, y) {
     this.root = [x, y];
     // this.edgeList = [[], []];
+    // this.adjacencyList = [[], []];
+    // this.adjacencyMatrix = [[], []];
+  }
+
+  buildEdgeList() {
+    return;
   }
 
   knightMoves(target) {
@@ -60,8 +68,10 @@ class Graph {
         console.log("x");
         return;
       } else {
-        for (const vertex of new Vertex(queue[pointer][0], queue[pointer][1])
-          .rosace) {
+        for (const vertex of rosaceBuilder(
+          queue[pointer][0],
+          queue[pointer][1]
+        )) {
           if (
             !visited.some(
               (subArray) =>
@@ -82,13 +92,6 @@ class Graph {
     // rosacebuilder(if exists add to queue BFS)
   }
 }
-
-// edge list
-// adjacency list
-// adjacency matrix
-
-// -+2x -+y
-// -+2y -+x
 
 const graph = new Graph(0, 0);
 
