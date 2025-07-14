@@ -1,11 +1,5 @@
-import { rosaceBuilder } from "./toolsModule.js";
-// wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-class Vertex {
-  constructor(x, y, a, b) {
-    this.adress = [x, y];
-    this.previous = [a, b];
-  }
-}
+import { rosaceBuilder, rosaceBuilderVertex, Vertex } from "./toolsModule.js";
+
 class Graph {
   constructor(x, y) {
     this.root = [x, y];
@@ -19,42 +13,50 @@ class Graph {
   }
 
   knightMoves(target) {
-    let queue = [this.root];
+    // let queue = [this.root];
+    let queue = [
+      new Vertex(this.root[0], this.root[1], this.root[0], this.root[1]),
+    ];
     let tempQueue = [];
-    let visited = [this.root];
+    let visited = queue;
 
     let steps = 0;
 
-    while (true) {
+    while (steps < 44) {
       for (let vertex of queue) {
-        if (vertex[0] === target[0] && vertex[1] === target[1]) {
+        if (vertex.adress[0] === target[0] && vertex.adress[1] === target[1]) {
           alert(`target Found in ${steps} steps `);
           return;
         }
       }
 
       for (let vertex of queue) {
-        let vertexRosace = rosaceBuilder(vertex[0], vertex[1]);
+        let vertexRosace = rosaceBuilderVertex(
+          vertex.adress[0],
+          vertex.adress[1]
+        );
 
         for (let rosy of vertexRosace) {
           if (
             !visited.some(
-              (element) => element[0] === rosy[0] && element[1] === rosy[1]
+              (element) =>
+                element.adress[0] === rosy.adress[0] &&
+                element.adress[1] === rosy.adress[1]
             )
           ) {
-            tempQueue.push([rosy[0], rosy[1]]);
-            visited.push([rosy[0], rosy[1]]);
+            tempQueue.push(rosy);
+            visited.push(rosy);
           }
         }
       }
       steps++;
       queue = tempQueue;
       tempQueue = [];
-      console.log(queue);
+      console.log(steps);
     }
   }
 }
 
 const graph = new Graph(0, 0);
 
-graph.knightMoves([0, 2]);
+graph.knightMoves([3, 3]);
