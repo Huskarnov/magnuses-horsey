@@ -1,53 +1,15 @@
 import { rosaceBuilder } from "./toolsModule.js";
 
 class Vertex {
-  constructor(x, y) {
+  constructor(x, y, a, b) {
     this.adress = [x, y];
-    // this.rosace = this.#rosaceBuilder();
+    this.previous = [a, b];
   }
-  // #rosaceBuilder(a, b) {
-  //   let rosaceArray = [];
-  //   if (a + 2 <= 7) {
-  //     if (b + 1 <= 7) {
-  //       rosaceArray.push([a + 2, b + 1]);
-  //     }
-  //     if (b - 1 >= 0) {
-  //       rosaceArray.push([a + 2, b - 1]);
-  //     }
-  //   }
-  //   if (a - 2 >= 0) {
-  //     if (b + 1 <= 7) {
-  //       rosaceArray.push([a - 2, b + 1]);
-  //     }
-  //     if (b - 1 >= 0) {
-  //       rosaceArray.push([a - 2, b - 1]);
-  //     }
-  //   }
-  //   //
-  //   if (b + 2 <= 7) {
-  //     if (a + 1 <= 7) {
-  //       rosaceArray.push([a + 1, b + 2]);
-  //     }
-  //     if (a - 1 >= 0) {
-  //       rosaceArray.push([a - 1, b + 2]);
-  //     }
-  //   }
-  //   if (b - 2 >= 0) {
-  //     if (a + 1 <= 7) {
-  //       rosaceArray.push([a + 1, b - 2]);
-  //     }
-  //     if (a - 1 >= 0) {
-  //       rosaceArray.push([a - 1, b - 2]);
-  //     }
-  //   }
-
-  //   return rosaceArray;
-  // }
 }
 class Graph {
   constructor(x, y) {
     this.root = [x, y];
-    // this.edgeList = [[], []];
+    this.edgeList = [];
     // this.adjacencyList = [[], []];
     // this.adjacencyMatrix = [[], []];
   }
@@ -58,41 +20,41 @@ class Graph {
 
   knightMoves(target) {
     let queue = [this.root];
+    let tempQueue = [];
     let visited = [this.root];
 
-    let pointer = 0;
-    // let steps = 0;
+    let steps = 0;
 
-    while (queue[pointer]) {
-      if (queue[pointer][0] === target[0] && queue[pointer][1] === target[1]) {
-        console.log("x");
-        return;
-      } else {
-        for (const vertex of rosaceBuilder(
-          queue[pointer][0],
-          queue[pointer][1]
-        )) {
+    while (true) {
+      for (let vertex of queue) {
+        if (vertex[0] === target[0] && vertex[1] === target[1]) {
+          alert(`target Found in ${steps} steps `);
+          return;
+        }
+      }
+
+      for (let vertex of queue) {
+        let vertexRosace = rosaceBuilder(vertex[0], vertex[1]);
+
+        for (let rosy of vertexRosace) {
           if (
             !visited.some(
-              (subArray) =>
-                subArray[0] === vertex[0] && subArray[1] === vertex[1]
+              (element) => element[0] === rosy[0] && element[1] === rosy[1]
             )
           ) {
-            visited.push([vertex[0], vertex[1]]);
-
-            queue.push([vertex[0], vertex[1]]);
+            tempQueue.push([rosy[0], rosy[1]]);
+            visited.push([rosy[0], rosy[1]]);
           }
         }
-        console.log(queue);
-        console.log(pointer);
-        pointer++;
       }
+      steps++;
+      queue = tempQueue;
+      tempQueue = [];
+      console.log(queue);
     }
-
-    // rosacebuilder(if exists add to queue BFS)
   }
 }
 
 const graph = new Graph(0, 0);
 
-graph.knightMoves([3, 3]);
+graph.knightMoves([0, 2]);
