@@ -1,5 +1,5 @@
 import { rosaceBuilder } from "./toolsModule.js";
-
+// wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 class Vertex {
   constructor(x, y, a, b) {
     this.adress = [x, y];
