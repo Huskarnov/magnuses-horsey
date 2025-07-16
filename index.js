@@ -1,4 +1,5 @@
 import { rosaceBuilder, rosaceBuilderVertex, Vertex } from "./toolsModule.js";
+import { HashMap } from "./hashMapModule.js";
 
 class Graph {
   constructor(x, y) {
@@ -22,6 +23,9 @@ class Graph {
     ];
     let tempQueue = [];
     let visited = [...queue];
+
+    let set = new HashMap();
+    set.set(new Vertex(this.root[0], this.root[1], this.root[0], this.root[1]));
 
     let steps = 0;
 
@@ -48,7 +52,7 @@ class Graph {
             }
           }
           console.log(`target found in ${vertexChain.length - 1} steps`);
-          console.log(vertexChain.reverse());
+          // console.log(vertexChain.reverse());
 
           return;
         }
@@ -61,6 +65,8 @@ class Graph {
         );
 
         for (let rosy of vertexRosace) {
+          set.set(rosy);
+          console.log(set);
           if (
             !visited.some((element) => {
               return (
@@ -90,7 +96,8 @@ form.addEventListener("submit", (event) => {
   const formData = new FormData(form);
   const xx = parseInt(formData.get("x"));
   const yy = parseInt(formData.get("y"));
-  console.log(xx, yy);
-  graph.knightMoves([xx, yy]);
+  if (xx && yy) {
+    graph.knightMoves([xx, yy]);
+  }
 });
-// graph.knightMoves([2, 2]);
+graph.knightMoves([2, 2]);
