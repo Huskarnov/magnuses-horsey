@@ -11,16 +11,17 @@ class Graph {
     return;
   }
 
-  knightMoves(target) {
+  knightMoves(start, target) {
     // early exit
     if (target[0] < 0 || target[0] > 7 || target[1] < 0 || target[1] > 7) {
       alert("target case outside of the table");
       return;
     }
 
-    let queue = [
-      new Vertex(this.root[0], this.root[1], this.root[0], this.root[1]),
-    ];
+    // let queue = [
+    //   new Vertex(this.root[0], this.root[1], this.root[0], this.root[1]),
+    // ];
+    let queue = [new Vertex(start[0], start[1], start[0], start[1])];
     let tempQueue = [];
     let visited = [...queue];
 
@@ -32,7 +33,6 @@ class Graph {
     while (true) {
       for (let vertex of queue) {
         if (vertex.adress[0] === target[0] && vertex.adress[1] === target[1]) {
-          // alert(`target Found in ${steps} steps `);
           let vertexChain = [];
           let current = structuredClone(vertex);
           vertexChain.push(current.adress);
@@ -52,7 +52,7 @@ class Graph {
             }
           }
           console.log(`target found in ${vertexChain.length - 1} steps`);
-          // console.log(vertexChain.reverse());
+          console.log(vertexChain.reverse());
 
           return;
         }
@@ -65,9 +65,8 @@ class Graph {
         );
 
         for (let rosy of vertexRosace) {
-          set.set(rosy);
-          console.log(set);
           if (
+            // !set.has(rosy)
             !visited.some((element) => {
               return (
                 element.adress[0] === rosy.adress[0] &&
@@ -76,6 +75,7 @@ class Graph {
             })
           ) {
             visited.push(rosy);
+            // set.set(rosy);
             tempQueue.push(rosy);
           }
         }
@@ -100,4 +100,5 @@ form.addEventListener("submit", (event) => {
     graph.knightMoves([xx, yy]);
   }
 });
-graph.knightMoves([2, 2]);
+
+graph.knightMoves([3, 3], [4, 3]);

@@ -23,10 +23,13 @@ class LinkedList {
     previous.next = { value: vertex, next: null };
   }
 
-  has(key) {
+  has(vertex) {
     let current = this.head;
     while (current) {
-      if (current.value[0] == key) {
+      if (
+        current.value.adress[0] === vertex.adress[0] &&
+        current.value.adress[1] === vertex.adress[1]
+      ) {
         return true;
       }
       current = current.next;
@@ -97,14 +100,23 @@ class HashMap {
     this.enlarge();
   }
 
-  has(key) {
-    for (let i = 0; i < this.capacity; i++) {
-      if (this.buckets[i]) {
-        if (this.buckets[i].has(key)) {
-          return true;
-        }
+  has(vertex) {
+    let hash = this.hash(vertex);
+
+    // for (let i = 0; i < this.capacity; i++) {
+    //   if (this.buckets[i]) {
+    //     if (this.buckets[i].has(vertex)) {
+    //       return true;
+    //     }
+    //   }
+    // }
+
+    if (this.buckets[hash]) {
+      if (this.buckets[hash].has(vertex)) {
+        return true;
       }
     }
+
     return false;
   }
 
