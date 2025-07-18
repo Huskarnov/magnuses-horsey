@@ -7,14 +7,32 @@ class Graph {
     this.edgeList = [];
   }
 
-  buildEdgeList() {
-    return;
-  }
+  // buildEdgeList() {
+  //   return;
+  // }
 
   knightMoves(start, target) {
     // early exit
-    if (target[0] < 0 || target[0] > 7 || target[1] < 0 || target[1] > 7) {
+    if (
+      !(typeof target[0] === "number") ||
+      target[0] < 0 ||
+      target[0] > 7 ||
+      !(typeof target[1] === "number") ||
+      target[1] < 0 ||
+      target[1] > 7
+    ) {
       alert("target case outside of the table");
+      return;
+    }
+    if (
+      !(typeof start[0] === "number") ||
+      start[0] < 0 ||
+      start[0] > 7 ||
+      !(typeof start[1] === "number") ||
+      start[1] < 0 ||
+      start[1] > 7
+    ) {
+      alert("starting case outside of the table");
       return;
     }
 
@@ -23,7 +41,7 @@ class Graph {
     // ];
     let queue = [new Vertex(start[0], start[1], start[0], start[1])];
     let tempQueue = [];
-    let visited = [...queue];
+    // let visited = [...queue];
 
     let set = new HashMap();
     set.set(new Vertex(start[0], start[1], start[0], start[1]));
@@ -83,7 +101,7 @@ class Graph {
             //   );
             // })
           ) {
-            visited.push(rosy);
+            // visited.push(rosy);
             set.set(rosy);
             // console.log(set);
             // console.log(rosy);
@@ -114,4 +132,4 @@ form.addEventListener("submit", (event) => {
   }
 });
 
-graph.knightMoves([3, 3], [6, 0]);
+graph.knightMoves([0, 0], [2, 2]);
