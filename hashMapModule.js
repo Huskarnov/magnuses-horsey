@@ -30,7 +30,7 @@ class LinkedList {
         current.value.adress[0] === vertex.adress[0] &&
         current.value.adress[1] === vertex.adress[1]
       ) {
-        return true;
+        return current.value;
       }
       current = current.next;
     }
@@ -66,7 +66,7 @@ class HashMap {
     // let hashCode = (31 * vertex.adress[0] + vertex.adress[1]) % this.capacity;
     // return hashCode;
     // return (vertex.adress[0] << vertex.adress[1]) | y;
-    return (vertex.adress[0] << 3) | vertex.adress[1];
+    return ((vertex.adress[0] << 3) | vertex.adress[1]) % this.capacity;
   }
 
   set_no_enlarge(vertex) {
@@ -103,18 +103,13 @@ class HashMap {
   has(vertex) {
     let hash = this.hash(vertex);
 
-    // for (let i = 0; i < this.capacity; i++) {
-    //   if (this.buckets[i]) {
-    //     if (this.buckets[i].has(vertex)) {
-    //       return true;
-    //     }
+    // if (this.buckets[hash]) {
+    //   if (this.buckets[hash].has(vertex)) {
+    //     return true;
     //   }
     // }
-
     if (this.buckets[hash]) {
-      if (this.buckets[hash].has(vertex)) {
-        return true;
-      }
+      return this.buckets[hash].has(vertex);
     }
 
     return false;

@@ -26,7 +26,7 @@ class Graph {
     let visited = [...queue];
 
     let set = new HashMap();
-    set.set(new Vertex(this.root[0], this.root[1], this.root[0], this.root[1]));
+    set.set(new Vertex(start[0], start[1], start[0], start[1]));
 
     let steps = 0;
 
@@ -41,18 +41,27 @@ class Graph {
             current.adress[0] !== current.previous[0] &&
             current.adress[1] !== current.previous[1]
           ) {
-            for (let element of visited) {
-              if (
-                element.adress[0] === current.previous[0] &&
-                element.adress[1] === current.previous[1]
-              ) {
-                current = structuredClone(element);
-                vertexChain.push(current.adress);
-              }
-            }
+            // for (let element of visited) {
+            //   if (
+            //     element.adress[0] === current.previous[0] &&
+            //     element.adress[1] === current.previous[1]
+            //   ) {
+            //     current = structuredClone(element);
+            //     vertexChain.push(current.adress);
+            //   }
+            // }
+
+            current = set.has(
+              new Vertex(current.previous[0], current.previous[1])
+            );
+            // console.log(current);
+            vertexChain.push(current.adress);
           }
+
           console.log(`target found in ${vertexChain.length - 1} steps`);
           console.log(vertexChain.reverse());
+          // console.log(set);
+          // console.log(visited);
 
           return;
         }
@@ -66,16 +75,20 @@ class Graph {
 
         for (let rosy of vertexRosace) {
           if (
-            // !set.has(rosy)
-            !visited.some((element) => {
-              return (
-                element.adress[0] === rosy.adress[0] &&
-                element.adress[1] === rosy.adress[1]
-              );
-            })
+            !set.has(rosy)
+            // !visited.some((element) => {
+            //   return (
+            //     element.adress[0] === rosy.adress[0] &&
+            //     element.adress[1] === rosy.adress[1]
+            //   );
+            // })
           ) {
             visited.push(rosy);
-            // set.set(rosy);
+            set.set(rosy);
+            // console.log(set);
+            // console.log(rosy);
+            // console.log(set.hash(rosy));
+            // console.log(set.has(rosy));
             tempQueue.push(rosy);
           }
         }
@@ -101,4 +114,4 @@ form.addEventListener("submit", (event) => {
   }
 });
 
-graph.knightMoves([3, 3], [4, 3]);
+graph.knightMoves([3, 3], [6, 0]);
