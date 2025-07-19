@@ -1,17 +1,5 @@
-import { rosaceBuilder, rosaceBuilderVertex, Vertex } from "./toolsModule.js";
+import { rosaceBuilderVertex, Vertex } from "./toolsModule.js";
 import { HashMap } from "./hashMapModule.js";
-
-class Graph {
-  constructor(x, y) {
-    this.root = [x, y];
-    this.edgeList = [];
-  }
-
-  // buildEdgeList() {
-  //   return;
-  // }
-}
-// const graph = new Graph(0, 0);
 
 function knightMoves(start, target) {
   console.time();
