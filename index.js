@@ -10,115 +10,90 @@ class Graph {
   // buildEdgeList() {
   //   return;
   // }
+}
+// const graph = new Graph(0, 0);
 
-  knightMoves(start, target) {
-    // early exit
-    if (
-      !(typeof target[0] === "number") ||
-      target[0] < 0 ||
-      target[0] > 7 ||
-      !(typeof target[1] === "number") ||
-      target[1] < 0 ||
-      target[1] > 7
-    ) {
-      alert("target case outside of the table");
-      return;
-    }
-    if (
-      !(typeof start[0] === "number") ||
-      start[0] < 0 ||
-      start[0] > 7 ||
-      !(typeof start[1] === "number") ||
-      start[1] < 0 ||
-      start[1] > 7
-    ) {
-      alert("starting case outside of the table");
-      return;
-    }
+function knightMoves(start, target) {
+  console.time();
+  // early exit
+  if (start[0] === target[0] && start[1] === target[1]) {
+    alert("same starting and target boxes");
+    return;
+  }
+  if (
+    !(typeof target[0] === "number") ||
+    target[0] < 0 ||
+    target[0] > 7 ||
+    !(typeof target[1] === "number") ||
+    target[1] < 0 ||
+    target[1] > 7 ||
+    !(typeof start[0] === "number") ||
+    start[0] < 0 ||
+    start[0] > 7 ||
+    !(typeof start[1] === "number") ||
+    start[1] < 0 ||
+    start[1] > 7
+  ) {
+    alert("target case outside of the table");
+    return;
+  }
 
-    // let queue = [
-    //   new Vertex(this.root[0], this.root[1], this.root[0], this.root[1]),
-    // ];
-    let queue = [new Vertex(start[0], start[1], start[0], start[1])];
-    let tempQueue = [];
-    // let visited = [...queue];
+  //----------------------------------------------------
 
-    let set = new HashMap();
-    set.set(new Vertex(start[0], start[1], start[0], start[1]));
+  let queue = [new Vertex(start[0], start[1], start[0], start[1])];
+  let tempQueue = [];
 
-    let steps = 0;
+  let set = new HashMap();
+  set.set(new Vertex(start[0], start[1], null, null));
 
-    while (true) {
-      for (let vertex of queue) {
-        if (vertex.adress[0] === target[0] && vertex.adress[1] === target[1]) {
-          let vertexChain = [];
-          let current = structuredClone(vertex);
-          vertexChain.push(current.adress);
+  let steps = 0;
+  let found = false;
 
-          while (
-            current.adress[0] !== current.previous[0] &&
-            current.adress[1] !== current.previous[1]
-          ) {
-            // for (let element of visited) {
-            //   if (
-            //     element.adress[0] === current.previous[0] &&
-            //     element.adress[1] === current.previous[1]
-            //   ) {
-            //     current = structuredClone(element);
-            //     vertexChain.push(current.adress);
-            //   }
-            // }
+  function checkIfFound(vertex) {
+    if (vertex.adress[0] === target[0] && vertex.adress[1] === target[1]) {
+      found = true;
+      let vertexChain = [];
+      let current = structuredClone(vertex);
+      vertexChain.push(current.adress);
 
-            current = set.has(
-              new Vertex(current.previous[0], current.previous[1])
-            );
-            // console.log(current);
-            vertexChain.push(current.adress);
-          }
+      //loop if not start vertex
+      while (current.previous[0] && current.previous[1]) {
+        current = set.has(new Vertex(current.previous[0], current.previous[1]));
 
-          console.log(`target found in ${vertexChain.length - 1} steps`);
-          console.log(vertexChain.reverse());
-          // console.log(set);
-          // console.log(visited);
-
-          return;
-        }
+        vertexChain.push(current.adress);
       }
 
-      for (let vertex of queue) {
-        let vertexRosace = rosaceBuilderVertex(
-          vertex.adress[0],
-          vertex.adress[1]
-        );
-
-        for (let rosy of vertexRosace) {
-          if (
-            !set.has(rosy)
-            // !visited.some((element) => {
-            //   return (
-            //     element.adress[0] === rosy.adress[0] &&
-            //     element.adress[1] === rosy.adress[1]
-            //   );
-            // })
-          ) {
-            // visited.push(rosy);
-            set.set(rosy);
-            // console.log(set);
-            // console.log(rosy);
-            // console.log(set.hash(rosy));
-            // console.log(set.has(rosy));
-            tempQueue.push(rosy);
-          }
-        }
-      }
-      steps++;
-      queue = [...tempQueue];
-      tempQueue = [];
+      console.log(`target found in ${vertexChain.length - 1} steps`);
+      console.log(vertexChain.reverse());
+      console.timeEnd();
+      // return;
     }
   }
-}
 
-const graph = new Graph(0, 0);
+  while (!found) {
+    // for (let i = 0; i <= queue; i++) {
+    for (let vertex of queue) {
+      // checkIfFound(vertex);
+      let vertexRosace = rosaceBuilderVertex(
+        vertex.adress[0],
+        vertex.adress[1]
+      );
+
+      for (let rosy of vertexRosace) {
+        if (!set.has(rosy)) {
+          set.set(rosy);
+          checkIfFound(rosy);
+          // console.log("x");
+
+          tempQueue.push(rosy);
+        }
+      }
+    }
+    steps++;
+    queue = [...tempQueue];
+    tempQueue = [];
+  }
+}
 
 const form = document.querySelector("form");
 
@@ -128,8 +103,8 @@ form.addEventListener("submit", (event) => {
   const xx = parseInt(formData.get("x"));
   const yy = parseInt(formData.get("y"));
   if (xx && yy) {
-    graph.knightMoves([xx, yy]);
+    knightMoves([0, 0], [xx, yy]);
   }
 });
 
-graph.knightMoves([0, 0], [2, 2]);
+knightMoves([0, 0], [7, 7]);
