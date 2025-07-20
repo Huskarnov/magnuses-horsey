@@ -1,4 +1,4 @@
-export { rosaceBuilder, rosaceBuilderVertex, Vertex };
+export { rosaceBuilderVertex, Vertex };
 
 class Vertex {
   constructor(x, y, a, b) {

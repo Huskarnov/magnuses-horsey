@@ -1,9 +1,12 @@
 import { rosaceBuilderVertex, Vertex } from "./toolsModule.js";
 import { HashMap } from "./hashMapModule.js";
 
+// change vertex class: only adress
+// replace vertex.previous with edge list or adjacency list
+
 function knightMoves(start, target) {
   console.time();
-  // early exit
+  // validation----------------------------------
   if (start[0] === target[0] && start[1] === target[1]) {
     alert("same starting and target boxes");
     return;
@@ -26,7 +29,7 @@ function knightMoves(start, target) {
     return;
   }
 
-  //----------------------------------------------------
+  //------------------------------------------
 
   let queue = [new Vertex(start[0], start[1], start[0], start[1])];
   let tempQueue = [];
@@ -40,11 +43,12 @@ function knightMoves(start, target) {
   function checkIfFound(vertex) {
     if (vertex.adress[0] === target[0] && vertex.adress[1] === target[1]) {
       found = true;
+      x;
       let vertexChain = [];
       let current = structuredClone(vertex);
       vertexChain.push(current.adress);
 
-      //loop if not start vertex
+      //loop if not start
       while (current.previous[0] && current.previous[1]) {
         current = set.has(new Vertex(current.previous[0], current.previous[1]));
 
@@ -59,9 +63,7 @@ function knightMoves(start, target) {
   }
 
   while (!found) {
-    // for (let i = 0; i <= queue; i++) {
     for (let vertex of queue) {
-      // checkIfFound(vertex);
       let vertexRosace = rosaceBuilderVertex(
         vertex.adress[0],
         vertex.adress[1]
@@ -71,7 +73,6 @@ function knightMoves(start, target) {
         if (!set.has(rosy)) {
           set.set(rosy);
           checkIfFound(rosy);
-          // console.log("x");
 
           tempQueue.push(rosy);
         }
@@ -82,17 +83,5 @@ function knightMoves(start, target) {
     tempQueue = [];
   }
 }
-
-const form = document.querySelector("form");
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const formData = new FormData(form);
-  const xx = parseInt(formData.get("x"));
-  const yy = parseInt(formData.get("y"));
-  if (xx && yy) {
-    knightMoves([0, 0], [xx, yy]);
-  }
-});
 
 knightMoves([0, 0], [7, 7]);
