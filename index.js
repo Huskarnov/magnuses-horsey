@@ -11,6 +11,7 @@ function knightMoves(start, target) {
     alert("same starting and target boxes");
     return;
   }
+  
   if (
     !(typeof target[0] === "number") ||
     target[0] < 0 ||
